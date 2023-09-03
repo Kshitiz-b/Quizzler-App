@@ -33,7 +33,7 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  int correct = 0, total = quizBrain.getLength();
+  int correct = 0, total = quizBrain.getLength(), highscore = 0;
   List<Icon> scoreKeeper = []; // To keep the score of the player
 
   void checkAnswer(bool userPickedAnswer) {
@@ -65,15 +65,19 @@ class _QuizPageState extends State<QuizPage> {
 
   void isLastQuestion() {
     if (quizBrain.isFinished()) {
+      if (correct > highscore) {
+        highscore = correct;
+      }
       Alert(
               context: context,
               title: "Congratulations!!",
               desc:
-                  "You completed the Quiz!\nYou got $correct answers correct out of $total questions")
+                  "You completed the Quiz!\nYou got $correct answers correct out of $total questions\nThe Highscore is $highscore.")
           .show();
 
       scoreKeeper.clear();
       quizBrain.Reset();
+
       correct = 0;
     }
   }
